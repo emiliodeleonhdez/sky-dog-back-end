@@ -1,8 +1,9 @@
 const express = require("express")
 const app = express()
-const db = require("./src/Lib/db")
-const config = require("./src/Lib/config")
+const db = require("./Lib/db")
+const config = require("./Lib/config")
 const port = config.PORT
+const apiRouter = require("./Routes")
 //app.use(cors())
 
 app.use(express.json())
@@ -10,6 +11,8 @@ app.use(express.json())
 app.get("/", (request, response) => {
   response.send("Hello Sky Dog!")
 })
+
+apiRouter(app)
 
 app.listen(port, () => {
   console.log(`Listening on port: http://localhost:${port}`)
