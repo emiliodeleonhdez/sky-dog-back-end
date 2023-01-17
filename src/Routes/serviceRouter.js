@@ -31,4 +31,19 @@ router.get("/get", async (req, res) => {
   }
 })
 
+router.patch("/patch", async (req, res) => {
+  try {
+    const id = req.body.id
+    const updateData = req.body
+    const serviceToUpdate = await service.updateService(id, updateData)
+    res.status(200).json({
+      ok: true,
+      message: `Service ${id} updated`,
+      payload: serviceToUpdate
+    })
+  } catch (error) {
+    console.log(error)
+  }
+})
+
 module.exports = router

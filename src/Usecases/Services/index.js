@@ -10,7 +10,13 @@ const getService = async ({}) => {
   return await Service.find({}).exec()
 }
 
+const updateService = async (id, update) => {
+  const { _id, ...data } = update
+  return await Service.findByIdAndUpdate(id, data, { new: true }).exec()
+}
+
 module.exports = {
   createService,
-  getService
+  getService,
+  updateService
 }
