@@ -42,7 +42,20 @@ router.patch("/patch", async (req, res) => {
       payload: serviceToUpdate
     })
   } catch (error) {
-    console.log(error)
+    console.error(error)
+  }
+})
+
+router.delete("/delete/:id", async (req, res) => {
+  try {
+    const { id } = req.params
+    const serviceToDelete = await service.deleteService(id)
+    res.status(200).json({
+      deleted: true,
+      message: `Service with id:${id} deleted`
+    })
+  } catch (error) {
+    console.error(error)
   }
 })
 

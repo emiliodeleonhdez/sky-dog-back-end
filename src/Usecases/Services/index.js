@@ -15,8 +15,13 @@ const updateService = async (id, update) => {
   return await Service.findByIdAndUpdate(id, data, { new: true }).exec()
 }
 
+const deleteService = async (id) => {
+  return await Service.findByIdAndDelete(id).exec()
+}
+
 module.exports = {
   createService,
   getService,
-  updateService
+  updateService,
+  deleteService
 }
