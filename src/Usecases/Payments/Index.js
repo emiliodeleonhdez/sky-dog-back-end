@@ -1,31 +1,37 @@
-const axios = require('axios');
-const config = require('../../Lib/config');
+const axios = require("axios")
+const config = require("../../Lib/config")
 
-// const auth = { user: config.PAYPAL_CLIENT, pass: config.PAYPAL_SECRET };
+const order = {
+  intent: "CAPTURE",
+  purchase_units: [
+    {
+      amount: {
+        currency_code: "USD",
+        value: "105.70",
+      },
+    },
+  ],
+  application_context: {
+    brand_name: "mycompany.com",
+    landing_page: "NO_PREFERENCE",
+    user_action: "PAY_NOW",
+    return_url: `${HOST}/capture-order`,
+    cancel_url: `${HOST}/cancel-payment`,
+  },
+};
 
-const user = "AcSKSDC5NXOTSb5p4ZLSwKkwQEHYbtKyi_N_iKjSzMEvmNDUBPWNWwMSPOB-4Y-uQFohow_aClrvcDrW"
-const pass = "EKoY5RwatB0E1W1tcWqtqdSZ-ngc0C1539CPMsknCrdLVG-YYjgyWFmPo8VQGQgb8QkKoWNEc8vlQ5WN"
-const url = "https://api-m.sandbox.paypal.com"
-// const auth = { user, pass };
+const access_token = "A21AALH4GBivYpxfOxOq03OzMXmgR45uOQlLWnH2VeysQdzkco8v1r109D_DJ0pMIcdXVjQbkRE58E874j11m7Gt4k9PjFqMA"
 
-const createOrder = async (body) => {
-    try {
-        const order = await axios.post(`${url}/v2/checkout/orders`, body, {
-                auth: {
-                    username: user,
-                    password: pass
-                }
-            },
-            (error) => {
-                if (error) throw new Error(error);
-                return order.data;
-            }
-        );
-    } catch (error) {
-        console.log(error);
-    }
+const createOrder = async (req, res) => {
+  console.log("run")
+    const response = await axios.post(`${config.PAYPAL_API_URL}/v2/checkout/orders`, order, {
+        headers: {
+            Authorization: `Bearer ${access_token}`
+        }
+    });
+    res.json(response.data);
 };
 
 module.exports = {
-    createOrder
-};
+  createOrder
+}
