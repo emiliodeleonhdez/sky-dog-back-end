@@ -52,7 +52,7 @@ router.delete("/delete/:id", async (req, res) => {
     const serviceToDelete = await service.deleteService(id)
     res.status(200).json({
       deleted: true,
-      message: `Service with id:${id} deleted`
+      payload: serviceToDelete
     })
   } catch (error) {
     console.error(error)
